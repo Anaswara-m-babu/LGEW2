@@ -80,10 +80,8 @@ DATABASES = {
         'NAME': 'LGEW',
         'HOST':'localhost',
         'PORT':'3308',
-        # 'PASSWORD' : '1234567890',
-        # 'USER' : 'root',
-        'PASSWORD' : 'vishnu',
-        'USER' : 'vaishnav',
+         'PASSWORD' : '1234567890',
+         'USER' : 'root',
     }
 }
 
