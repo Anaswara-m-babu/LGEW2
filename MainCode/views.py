@@ -1,19 +1,25 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
+
 from .models import *
 
 def main(request):
     if request.method == "POST":
         Username = request.POST['username']
         Password = request.POST['password']
-        user = auth.authenticate(username=Username, password=Password)
-        if user is not None:
-            auth.login(request, user)
-            return redirect("/adminhome")
-        else:
+        user = Login.objects.filter(Username=Username, Password=Password)
+        if len(user)==0:
             messages.error(request, "invalid user")
             return redirect("/")
+        else:
+            return redirect("/adminhome")
+        # if user is not None:
+        #     auth.login(request, user)
+        #     return redirect("/adminhome")
+        # else:
+        #     messages.error(request, "invalid user")
+        #     return redirect("/")
     else:
         pass
     return render(request, "login.html")
@@ -82,14 +88,16 @@ def AddStop(request):
 
 
 def conductor(request):
-    return render(request, "conductor.html")
+    ob=Conductor.objects.all()
+    print(ob,"===============================")
+    return render(request, "conductor.html",{"data":ob})
 
 
 def feedback(request):
     return render(request, "feedback.html")
 
 
-def login(request):
+def login1(request):
     return render(request, "login.html")
 
 
