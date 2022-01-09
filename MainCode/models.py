@@ -17,13 +17,17 @@ class Passenger(models.Model):
     Post = models.CharField(max_length=20, null=True)
     pin = models.BigIntegerField(null=True)
 
-
 class BusRegister(models.Model):
     BusId = models.AutoField(primary_key=True)
     BusRegisterNUmber = models.CharField(max_length=40)
     SeatCapacity = models.IntegerField()
     RouteId = models.IntegerField()
 
+class BusRegister(models.Model):
+    BusId = models.AutoField(primary_key=True)
+    BusRegisterNUmber = models.CharField(max_length=40)
+    SeatCapacity = models.IntegerField()
+    RouteId = models.IntegerField()
 class Conductor(models.Model):
     UserId = models.AutoField(primary_key=True)
     FirstName = models.CharField(max_length=20, null=True)
