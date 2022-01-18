@@ -4,22 +4,17 @@ from django.contrib import messages
 
 from .models import *
 
+
 def main(request):
     if request.method == "POST":
         Username = request.POST['username']
         Password = request.POST['password']
         user = Login.objects.filter(Username=Username, Password=Password)
-        if len(user)==0:
+        if len(user) == 0:
             messages.error(request, "invalid user")
             return redirect("/")
         else:
             return redirect("/adminhome")
-        # if user is not None:
-        #     auth.login(request, user)
-        #     return redirect("/adminhome")
-        # else:
-        #     messages.error(request, "invalid user")
-        #     return redirect("/")
     else:
         pass
     return render(request, "login.html")
@@ -43,14 +38,19 @@ def addconductor(request):
         LastName = request.POST['lastname']
         Place = request.POST['place']
         Post = request.POST['post']
+        Contact = request.POST['contact']
         Pin = request.POST['pin']
         Bus = request.POST['bus']
         Username = request.POST['username']
         Password = request.POST['password']
-        print(FirstName, LastName, Place, Post, Pin, Bus, Username, Password)
-        Conductor.objects.create(FirstName = FirstName, LastName = LastName, Place = Place, 
-            Post = Post, pin = Pin, Bus = Bus,Contact = 0000000)
-    return render(request, "AddConductor.html")
+        ob=Login.objects.create(Username = Username, Password = Password, Type="conductor")
+        bob=BusRegister.objects.get(BusId=Bus)
+        Conductor.objects.create(
+            FirstName=FirstName, LastName=LastName, Place=Place,
+            Post=Post, pin=Pin, Bus=bob, Contact=Contact,lid=ob
+        )
+    ob=BusRegister.objects.all()
+    return render(request, "AddConductor.html",{"data":ob})
 
 
 def busmanagement_add(request):
@@ -88,35 +88,39 @@ def AddStop(request):
 
 
 def conductor(request):
-    ob=Conductor.objects.all()
-    print(ob,"===============================")
-    return render(request, "conductor.html",{"data":ob})
+    object = Conductor.objects.all()
+    return render(request, "conductor.html", {"data": object})
 
 
 def feedback(request):
-    return render(request, "feedback.html")
+    feedback = Feedback.objects.all()
+    # print(feedback.User_id)
+    return render(request, "feedback.html", {'feedbacks': feedback})
 
 
-def login1(request):
-    return render(request, "login.html")
+# def login1(request):
+#     return render(request, "login.html")
 
 
 def passenger(request):
     return render(request, "passenger.html")
 
 
-def Route(request):
-    return render(request, "Route.html")
+def Routee(request):
+    ob=Route.objects.all()
+    return render(request, "Route.html",{"data":ob})
 
 
 def RouteAdd(request):
-    if request.method == "GET":
-        StartingStop = request.GET['StartingStop']
-        EndingStop = request.GET['EndingStop']
-        print(
-            "\n Starting stop = ", StartingStop,
-            "\n Ending stop = ", EndingStop,
-        )
+    if request.method == "POST":
+        StartingStop = request.POST['StartingStop']
+        EndingStop = request.POST['EndingStop']
+        rob=Route()
+        rob.StartingStop=StartingStop
+        rob.EndingStop=EndingStop
+        rob.save()
+        return redirect('/route')
+       
     return render(request, "RouteAdd.html")
 
 
@@ -125,4 +129,9 @@ def stopdetails(request):
 
 
 def track(request):
+    if request.method == "POST":
+        BusNumber = request.POST['BusNumber']
+        print(BusNumber)
+    else:
+        pass
     return render(request, "track.html")

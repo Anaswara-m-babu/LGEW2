@@ -1,6 +1,5 @@
 from django.db import models
 
-# # Create your models here.
 class Login(models.Model):
     UserId = models.AutoField(primary_key=True)
     Username = models.CharField(max_length=25)
@@ -17,17 +16,17 @@ class Passenger(models.Model):
     Post = models.CharField(max_length=20, null=True)
     pin = models.BigIntegerField(null=True)
 
+class Route(models.Model):
+     RouteId=models.AutoField(primary_key=True)
+     StartingStop=models.CharField(max_length=50)
+     EndingStop=models.CharField(max_length=50)
+     
 class BusRegister(models.Model):
     BusId = models.AutoField(primary_key=True)
     BusRegisterNUmber = models.CharField(max_length=40)
     SeatCapacity = models.IntegerField()
-    RouteId = models.IntegerField()
+    RouteId = models.ForeignKey(Route,on_delete=models.CASCADE)
 
-class BusRegister(models.Model):
-    BusId = models.AutoField(primary_key=True)
-    BusRegisterNUmber = models.CharField(max_length=40)
-    SeatCapacity = models.IntegerField()
-    RouteId = models.IntegerField()
 class Conductor(models.Model):
     UserId = models.AutoField(primary_key=True)
     FirstName = models.CharField(max_length=20, null=True)
@@ -39,7 +38,7 @@ class Conductor(models.Model):
     Bus = models.ForeignKey(BusRegister,on_delete=models.CASCADE)
     lid=models.ForeignKey(Login,on_delete=models.CASCADE)
 
-class feedback(models.Model):
+class Feedback(models.Model):
     User_id = models.ForeignKey(Passenger,on_delete=models.CASCADE)
     Feedback = models.CharField(max_length=120)
     Date = models.DateField()
@@ -57,11 +56,6 @@ class BusLocation(models.Model):
     BusId = models.ForeignKey(BusRegister, on_delete=models.CASCADE)
     Latitude = models.FloatField()
     Longitude = models.FloatField()
-
-class Route(models.Model):
-     RouteId=models.AutoField(primary_key=True)
-     StartingStop=models.CharField(max_length=50)
-     EndingStop=models.CharField(max_length=50)
 
 class BusStop(models.Model):
     StopId = models.AutoField(primary_key=True)
@@ -92,4 +86,3 @@ class payment(models.Model):
 class QRcode(models.Model):
      id=models.AutoField(primary_key=True)
      BusId=models.ForeignKey(BusRegister,on_delete=models.CASCADE)
-
