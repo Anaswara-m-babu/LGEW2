@@ -53,6 +53,19 @@ def addconductor(request):
     return render(request, "AddConductor.html",{"data":ob})
 
 
+
+def deleteconductor(request,id):
+    obc=Conductor.objects.get(UserId=id)
+    lob=Login.objects.get(UserId=obc.lid.UserId)
+   
+    obc.delete()
+    lob.delete()
+    return redirect('/conductor')
+
+def deleteroute(request,id):
+    obc = Route.objects.get(RouteId=id)
+    obc.delete()
+    return redirect("/route")
 def busmanagement_add(request):
     if request.method == "POST":
         RegisterNUmber = request.POST['register_number']

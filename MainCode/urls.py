@@ -18,4 +18,6 @@ urlpatterns = [
     path('routeadd', views.RouteAdd),
     path('stopdetails', views.stopdetails),
     path('track', views.track),
+    path('deleteconductor/<int:id>',views.deleteconductor,name="deleteconductor"),
+    path('deleteroute/<int:id>',views.deleteroute,name="deleteroute")
 ]

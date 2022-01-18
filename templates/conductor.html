@@ -29,7 +29,8 @@
                     <td>{{ i.pin }}</td>
                     <td>{{i.Bus.BusRegisterNUmber}}</td>
                     <td>
-                        <button> Delete </button>
+                        <a href="deleteconductor/{{i.UserId}}">Delete</a>
+                        {% comment %} <a href="{% url 'deleteconductor' id=i.UserId %}">Delete</a> {% endcomment %}
                     </td>
                 </tr>
                 {% endfor %}
@@ -40,29 +41,7 @@
                    </a>
                 </td>
                 </tr>
-                {% for objects in data %}
-                <tr>
-                    <td>{{ objects.FirstName }}</td>
-                    <td> {{ objects.LastName }} </td>
-                    <td>{{ objects.Contact }}</td>
-                    <td>{{ objects.Place }}</td>
-                    <td>{{ objects.Post }}</td>
-                    <td>{{ objects.pin }}</td>
-                    <td>{{ objects.bus }}</td>
-                    <td>
-                        <button>
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-                {% endfor %}
-                <tr>
-                    <td colspan="10" align="center">
-                        <a href="/addconductor" >
-                        <input type="button" value="add">
-                       </a>
-                    </td>
-                </tr>
+                
             </table>
         </form>
     </header>
